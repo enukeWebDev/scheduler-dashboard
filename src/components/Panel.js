@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 
 class Panel extends Component {
+
   render() {
+
     const { label, value, onSelect } = this.props;
 
     return (

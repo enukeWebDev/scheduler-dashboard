@@ -14,45 +14,25 @@ import {
   getInterviewsPerDay
 } from "helpers/selectors";
 
-// const data = [
-//   {
-//     id: 1,
-//     label: "Total Interviews",
-//     value: 6
-//   },
-//   {
-//     id: 2,
-//     label: "Least Popular Time Slot",
-//     value: "1pm"
-//   },
-//   {
-//     id: 3,
-//     label: "Most Popular Day",
-//     value: "Wednesday"
-//   },
-//   {
-//     id: 4,
-//     label: "Interviews Per Day",
-//     value: "2.3"
-//   }
-// ];
-
 const data = [
   {
     id: 1,
     label: "Total Interviews",
     getValue: getTotalInterviews
   },
+
   {
     id: 2,
     label: "Least Popular Time Slot",
     getValue: getLeastPopularTimeSlot
   },
+
   {
     id: 3,
     label: "Most Popular Day",
     getValue: getMostPopularDay
   },
+
   {
     id: 4,
     label: "Interviews Per Day",
@@ -70,9 +50,8 @@ class Dashboard extends Component {
     interviewers: {}
   };
 
-  // state = { /* do not replace your initial state */ };
-
   componentDidMount() {
+
     const focused = JSON.parse(localStorage.getItem("focused"));
 
     if (focused) {
@@ -94,6 +73,7 @@ class Dashboard extends Component {
 
     this.socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
     this.socket.onmessage = event => {
+
       const data = JSON.parse(event.data);
 
       if (typeof data === "object" && data.type === "SET_INTERVIEW") {
@@ -105,6 +85,7 @@ class Dashboard extends Component {
   }
 
   componentDidUpdate(previousProps, previousState) {
+
     if (previousState.focused !== this.state.focused) {
       localStorage.setItem("focused", JSON.stringify(this.state.focused));
     }
@@ -116,14 +97,13 @@ class Dashboard extends Component {
   }
 
   selectPanel(id) {
+
     this.setState(previousState => ({
       focused: previousState.focused !== null ? null : id
     }));
   }
 
   render() {
-
-    //console.log(`I'm here`, this.state);
 
     const dashboardClasses = classnames("dashboard", {
       "dashboard--focused": this.state.focused
@@ -140,10 +120,8 @@ class Dashboard extends Component {
       .map(panel => (
         <Panel
           key={panel.id}
-          //id={panel.id}
           label={panel.label}
           value={panel.getValue(this.state)}
-          //onSelect={this.selectPanel}
           onSelect={() => this.selectPanel(panel.id)}
         />
       ));
